@@ -24,10 +24,13 @@ public class MyMemoryProvider implements TranslationProvider {
     private final RestClient client;
 
     public MyMemoryProvider() {
-        var httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
+        var httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(15)).build();
         var requestFactory = new JdkClientHttpRequestFactory(httpClient);
-        requestFactory.setReadTimeout(Duration.ofSeconds(18));
-        this.client = RestClient.builder().baseUrl(BASE_URL).requestFactory(requestFactory).build();
+        requestFactory.setReadTimeout(Duration.ofSeconds(35));
+        this.client = RestClient.builder().baseUrl(BASE_URL)
+                .defaultHeader("User-Agent", "LinguaTranslator/1.0")
+                .defaultHeader("Accept", "application/json")
+                .requestFactory(requestFactory).build();
     }
 
     @Override
